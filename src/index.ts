@@ -9,12 +9,13 @@ import { compilerNode } from "./agents/compiler.js";
 
 const workflow = new StateGraph(agentState)
   .addNode("planner", plannerNode)
-  .addNode("humanNode", humanNode)
+  .addNode("humanNode", humanNode, {
+    ends: ["researcher", "planner"],
+  })
   .addNode("researcher", researcherNode)
   .addNode("compiler", compilerNode)
   .addEdge(START, "planner")
   .addEdge("planner", "humanNode")
-  .addEdge("humanNode", "researcher")
   .addConditionalEdges("researcher", researchRoute)
   .addEdge("compiler", END);
 

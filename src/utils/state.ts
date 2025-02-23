@@ -13,6 +13,12 @@ export const agentState = Annotation.Root({
     reducer: (a, b) => b,
     default: () => "",
   }),
+
+  feedback: Annotation<string>({
+    reducer: (a, b) => b,
+    default: () => "",
+  }),
+
   plan: Annotation<string[]>({
     reducer: (a, b) => b,
     default: () => [],

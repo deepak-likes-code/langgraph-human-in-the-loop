@@ -19,6 +19,18 @@ const prompt = PromptTemplate.fromTemplate(
   `
 );
 
+const feedbackPrompt = PromptTemplate.fromTemplate(
+  `
+ You have been given a feedback by the researcher on the research plan that you have made. Based on the feedback, you need to revise the plan and the steps in it.
+
+  Feedback: {feedback}
+
+  Plan: {plan}
+
+  Output format: {format_instructions}
+  `
+);
+
 const parser = StructuredOutputParser.fromZodSchema(
   z.object({
     plan: z.array(z.string()),
@@ -32,17 +44,38 @@ export const plannerNode = async (
   config: RunnableConfig
 ) => {
   const question = state.researchQuestion;
+  const feedback = state.feedback;
 
-  const result = await chain.invoke(
-    {
-      question,
-      format_instructions: parser.getFormatInstructions(),
-    },
-    config
-  );
+  if (feedback) {
+    const feedbackChain = RunnableSequence.from([
+      feedbackPrompt,
+      openaiReasoningModel,
+      parser,
+    ]);
 
-  return {
-    ...state,
-    plan: result.plan,
-  };
+    const result = await feedbackChain.invoke(
+      {
+        feedback,
+        plan: state.plan,
+        format_instructions: parser.getFormatInstructions(),
+      },
+      config
+    );
+
+    return {
+      plan: result.plan,
+    };
+  } else {
+    const result = await chain.invoke(
+      {
+        question,
+        format_instructions: parser.getFormatInstructions(),
+      },
+      config
+    );
+
+    return {
+      plan: result.plan,
+    };
+  }
 };
