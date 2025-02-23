@@ -1,8 +1,9 @@
 {
-  "name": "human-in-da-loop",
+  "name": "humanindaloop",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "LangGraph Studio Project",
+  "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "tsx watch src/index.ts",
@@ -12,8 +13,23 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@langchain/anthropic": "^0.3.13",
+    "@langchain/community": "^0.3.32",
     "@langchain/core": "^0.3.40",
+    "@langchain/deepseek": "^0.0.1",
     "@langchain/langgraph": "^0.2.48",
-    "tsx": "^4.19.3"
-  }
+    "@langchain/openai": "^0.4.4",
+    "dotenv": "^16.4.7",
+    "openai": "^4.85.3",
+    "tsx": "^4.19.3",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.5",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "packageManager": "npm@10.2.4"
 }

@@ -9,9 +9,9 @@ interface Research {
 }
 
 export const agentState = Annotation.Root({
-  messages: Annotation<BaseMessage[]>({
-    reducer: messagesStateReducer,
-    default: () => [],
+  researchQuestion: Annotation<string>({
+    reducer: (a, b) => b,
+    default: () => "",
   }),
   plan: Annotation<string[]>({
     reducer: (a, b) => b,
