@@ -7,13 +7,21 @@ export const humanNode = async (
   config: RunnableConfig
 ) => {
   const value = interrupt({
-    text_to_revise: state.plan,
+    question: "Give feedback on the research",
+    plan: state.plan,
   });
+  console.log(value);
 
-  return new Command({
-    goto: END,
-    update: {
-      plan: value,
-    },
-  });
+  if (value === "continue") {
+    return new Command({
+      goto: "researcher",
+    });
+  } else if (value !== "continue") {
+    return new Command({
+      goto: "planner",
+      update: {
+        feedback: value as string,
+      },
+    });
+  }
 };
